@@ -1,0 +1,29 @@
+# Estrutura do pacote .deb (exemplo de arquivos de controle)
+# Crie a seguinte estrutura em uma pasta chamada 'software-store-deb'
+
+software-store-deb/
+├── DEBIAN/
+│   └── control
+├── opt/
+│   └── software-store/
+│       └── ... (todos os arquivos do projeto)
+├── usr/
+│   ├── share/
+│   │   └── applications/
+│   │       └── software-store.desktop
+│   └── local/
+│       └── bin/
+│           └── software-store
+
+# Exemplo do arquivo DEBIAN/control:
+Package: software-store
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Depends: python3, python3-gi, python3-apt, gir1.2-gtk-3.0, gettext
+Maintainer: Seu Nome <seu@email.com>
+Description: Loja de aplicativos Debian/Ubuntu para Termux com interface gráfica.
+
+# Para gerar o .deb:
+# dpkg-deb --build software-store-deb

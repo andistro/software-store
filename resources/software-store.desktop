@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Software Store
+Comment=Loja de aplicativos Debian/Ubuntu para Termux
+Exec=software-store
+Icon=software-store
+Terminal=false
+Type=Application
+Categories=Utility;System;
+MimeType=x-scheme-handler/software-store;

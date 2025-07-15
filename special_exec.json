@@ -1,0 +1,6 @@
+{
+    "chromium": "--no-sandbox",
+    "brave-browser": "--no-sandbox",
+    "vivaldi": "--no-sandbox",
+    "code": "--no-sandbox"
+}

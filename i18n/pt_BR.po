@@ -1,0 +1,32 @@
+msgid "Pesquisar aplicativos"
+msgstr "Pesquisar aplicativos"
+
+msgid "Procurar atualizações"
+msgstr "Procurar atualizações"
+
+msgid "Nenhum pacote encontrado."
+msgstr "Nenhum pacote encontrado."
+
+msgid "Instalar"
+msgstr "Instalar"
+
+msgid "Remover"
+msgstr "Remover"
+
+msgid "Abrir"
+msgstr "Abrir"
+
+msgid "Bom dia!"
+msgstr "Bom dia!"
+
+msgid "Boa tarde!"
+msgstr "Boa tarde!"
+
+msgid "Boa noite!"
+msgstr "Boa noite!"
+
+msgid "Boa madrugada!"
+msgstr "Boa madrugada!"
+
+msgid "Bem-vindo à loja de aplicativos Debian/Ubuntu para Termux!"
+msgstr "Bem-vindo à loja de aplicativos Debian/Ubuntu para Termux!"
