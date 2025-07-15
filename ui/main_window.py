@@ -34,17 +34,23 @@ class MainWindow(Gtk.Window):
         html += f"<h2>{_('Resultados para')} '{term}'</h2><div class='results'>"
         for pkg in pkgs:
             installed = is_installed(pkg['name'])
-            html += f"""
-            <div class='card'>
-                <img src='file:///opt/software-store/resources/icons/{pkg['name']}.png' class='icon' onerror="this.src='file:///opt/software-store/resources/icons/default.png'">
-                <div class='info'>
-                    <span class='name'>{pkg['name']} ({pkg['version']})</span>
-                    <button onclick="window.location.href='app-action://details/{pkg['name']}'">{_('Detalhes')}</button>
-                    {'<button onclick="window.location.href=\'app-action://open/%s\'">%s</button>' % (pkg['name'], _('Abrir')) if installed else '<button onclick="window.location.href=\'app-action://install/%s\'">%s</button>' % (pkg['name'], _('Instalar'))}
-                    {'<button onclick="window.location.href=\'app-action://remove/%s\'">%s</button>' % (pkg['name'], _('Remover')) if installed else ''}
-                </div>
-            </div>
-            """
+            html += (
+                "<div class='card'>"
+                f"<img src='file:///opt/software-store/resources/icons/{pkg['name']}.png' class='icon' "
+                "onerror=\"this.src='file:///opt/software-store/resources/icons/default.png'\">"
+                "<div class='info'>"
+                f"<span class='name'>{pkg['name']} ({pkg['version']})</span>"
+                f"<button onclick=\"window.location.href='app-action://details/{pkg['name']}'\">{_('Detalhes')}</button>"
+                +
+                (f"<button onclick=\"window.location.href='app-action://open/{pkg['name']}'\">{_('Abrir')}</button>"
+                 if installed else
+                 f"<button onclick=\"window.location.href='app-action://install/{pkg['name']}'\">{_('Instalar')}</button>")
+                +
+                (f"<button onclick=\"window.location.href='app-action://remove/{pkg['name']}'\">{_('Remover')}</button>"
+                 if installed else "")
+                +
+                "</div></div>"
+            )
         html += "</div></body></html>"
         self.webview.load_html(html, "file:///opt/software-store/resources/search.html")
 
@@ -54,15 +60,22 @@ class MainWindow(Gtk.Window):
             pkg = pkgs[0]
             installed = is_installed(pkg['name'])
             html = "<html><head><link rel='stylesheet' href='file:///opt/software-store/resources/style.css'></head><body>"
-            html += f"""
-            <div class='details-card'>
-                <img src='file:///opt/software-store/resources/icons/{pkg['name']}.png' class='icon' onerror="this.src='file:///opt/software-store/resources/icons/default.png'">
-                <h2>{pkg['name']} ({pkg['version']})</h2>
-                <p>{pkg.get('description', '')}</p>
-                {'<button onclick="window.location.href=\'app-action://open/%s\'">%s</button>' % (pkg['name'], _('Abrir')) if installed else '<button onclick="window.location.href=\'app-action://install/%s\'">%s</button>' % (pkg['name'], _('Instalar'))}
-                {'<button onclick="window.location.href=\'app-action://remove/%s\'">%s</button>' % (pkg['name'], _('Remover')) if installed else ''}
-            </div>
-            """
+            html += (
+                "<div class='details-card'>"
+                f"<img src='file:///opt/software-store/resources/icons/{pkg['name']}.png' class='icon' "
+                "onerror=\"this.src='file:///opt/software-store/resources/icons/default.png'\">"
+                f"<h2>{pkg['name']} ({pkg['version']})</h2>"
+                f"<p>{pkg.get('description', '')}</p>"
+                +
+                (f"<button onclick=\"window.location.href='app-action://open/{pkg['name']}'\">{_('Abrir')}</button>"
+                 if installed else
+                 f"<button onclick=\"window.location.href='app-action://install/{pkg['name']}'\">{_('Instalar')}</button>")
+                +
+                (f"<button onclick=\"window.location.href='app-action://remove/{pkg['name']}'\">{_('Remover')}</button>"
+                 if installed else "")
+                +
+                "</div>"
+            )
             html += "</body></html>"
             self.webview.load_html(html, "file:///opt/software-store/resources/details.html")
 
@@ -193,8 +206,9 @@ class MainWindow(Gtk.Window):
             self.results_box.pack_start(Gtk.Label(label=_("Nenhum pacote encontrado.")), False, False, 0)
         else:
             for pkg in pkgs:
-                card = PackageCard(pkg, self)
-                self.results_box.pack_start(card, False, False, 0)
+                # Exibe apenas o nome e versão do pacote como exemplo
+                label = Gtk.Label(label=f"{pkg['name']} ({pkg['version']})")
+                self.results_box.pack_start(label, False, False, 0)
         self.results_box.show_all()
 
     def open_details(self, pkg):
