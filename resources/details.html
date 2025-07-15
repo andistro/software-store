@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="file:///opt/software-store/resources/style.css">
+</head>
+<body>
+    <div id="details-card" class="details-card"></div>
+    <script>
+        // O Python deve preencher o innerHTML de #details-card via WebKit ou gerar o HTML antes de carregar
+        // Exemplo de estrutura esperada:
+        /*
+        document.getElementById('details-card').innerHTML = `
+            <img src='file:///opt/software-store/resources/icons/inkscape.png' class='icon' onerror="this.src='file:///opt/software-store/resources/icons/default.png'">
+            <h2>inkscape (1.2.2)</h2>
+            <p>Editor de gráficos vetoriais.</p>
+            <button onclick="window.location.href='app-action://open/inkscape'">Abrir</button>
+            <button onclick="window.location.href='app-action://remove/inkscape'">Remover</button>
+        `;
+        */
+    </script>
+</body>
+</html>

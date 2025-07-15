@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="file:///opt/software-store/resources/style.css">
+</head>
+<body>
+    <h2 id="search-title"></h2>
+    <div id="results"></div>
+    <script>
+        // O Python deve preencher o innerHTML de #results via WebKit ou gerar o HTML antes de carregar
+        // Exemplo de estrutura esperada:
+        /*
+        document.getElementById('search-title').innerText = "Resultados para 'inkscape'";
+        document.getElementById('results').innerHTML = `
+            <div class='card'>
+                <img src='file:///opt/software-store/resources/icons/inkscape.png' class='icon' onerror="this.src='file:///opt/software-store/resources/icons/default.png'">
+                <div class='info'>
+                    <span class='name'>inkscape (1.2.2)</span>
+                    <button onclick="window.location.href='app-action://details/inkscape'">Detalhes</button>
+                    <button onclick="window.location.href='app-action://open/inkscape'">Abrir</button>
+                    <button onclick="window.location.href='app-action://remove/inkscape'">Remover</button>
+                </div>
+            </div>
+        `;
+        */
+    </script>
+</body>
+</html>

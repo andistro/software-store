@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="file:///opt/software-store/resources/style.css">
+</head>
+<body>
+    <div class="welcome">
+        <h1>Software Store</h1>
+        <p>Bem-vindo à loja de aplicativos Debian/Ubuntu para Termux!</p>
+        <input type="text" id="search" placeholder="Pesquisar aplicativos">
+        <button onclick="search()">Pesquisar</button>
+        <button onclick="window.location.href='app-action://update'">Procurar atualizações</button>
+    </div>
+    <script>
+        function search() {
+            var term = document.getElementById('search').value;
+            window.location.href = 'app-action://search/' + encodeURIComponent(term);
+        }
+    </script>
+</body>
+</html>
