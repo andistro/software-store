@@ -37,7 +37,7 @@ class MainWindow(Gtk.Window):
         self.search_entry.set_placeholder_text(_("Pesquisar aplicativos"))
         self.search_entry.set_hexpand(True)
         self.search_entry.set_margin_bottom(8)
-        self.search_entry.connect("changed", self.on_search_changed)
+        self.search_entry.connect("activate", self.on_search_clicked)  # Enter faz pesquisa
         hbox.pack_start(self.search_entry, True, True, 0)
         self.search_btn = Gtk.Button(label=_("Pesquisar"))
         self.search_btn.connect("clicked", self.on_search_clicked)
@@ -48,6 +48,10 @@ class MainWindow(Gtk.Window):
         self.update_btn = Gtk.Button(label=_("Procurar atualizações"))
         self.update_btn.connect("clicked", self.on_update_clicked)
         vbox.pack_start(self.update_btn, False, False, 0)
+
+        # Status de atualização
+        self.status_label = Gtk.Label(label="")
+        vbox.pack_start(self.status_label, False, False, 0)
 
         # Área de resultados
         self.results_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
@@ -65,12 +69,7 @@ class MainWindow(Gtk.Window):
         else:
             return _("Boa madrugada!")
 
-    def on_search_changed(self, entry):
-        text = entry.get_text()
-        if len(text) > 2:
-            self.show_search_results(text)
-
-    def on_search_clicked(self, btn):
+    def on_search_clicked(self, btn_or_entry):
         text = self.search_entry.get_text()
         self.show_search_results(text)
 
@@ -102,7 +101,13 @@ class MainWindow(Gtk.Window):
         dialog.destroy()
 
     def on_update_clicked(self, btn):
-        # ...mostrar barra de progresso...
-        update_packages()
-        # ...informar usuário...
+        self.status_label.set_text(_("Procurando por atualizações, aguarde..."))
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+        updates = update_packages()
+        if not updates:
+            self.status_label.set_text(_("Tudo atualizado!"))
+        else:
+            self.status_label.set_text(_("Há atualizações disponíveis!"))
+        # ...pode abrir diálogo para confirmar atualização...
 

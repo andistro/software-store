@@ -33,7 +33,12 @@ def is_installed(name):
 
 def update_packages():
     subprocess.run(["apt-get", "update"])
-    subprocess.run(["apt-get", "upgrade", "-y"])
+    result = subprocess.run(["apt-get", "-s", "upgrade"], capture_output=True, text=True)
+    updates = []
+    for line in result.stdout.splitlines():
+        if line.startswith("Inst "):
+            updates.append(line)
+    return updates
 
 def get_special_exec(name):
     with open("special_exec.json") as f:
