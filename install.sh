@@ -18,6 +18,7 @@ echo "Instalando Software Store..."
 INSTALL_DIR="/opt/software-store"
 sudo mkdir -p "$INSTALL_DIR"
 sudo cp -r ./* "$INSTALL_DIR"
+sudo chmod +x "$INSTALL_DIR/main.py"  # Adiciona permissão de execução ao main.py
 
 echo "Os arquivos do Software Store serão movidos de $(pwd) para $INSTALL_DIR."
 echo "Certifique-se de que todos os arquivos do projeto estão nesta pasta antes de instalar."

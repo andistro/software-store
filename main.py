@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Este programa busca apenas nos repositórios apt do sistema.
 # Pacotes Snap e Flatpak são ignorados e não suportados, pois não funcionam no Debian via Termux/proot-distro.
 
