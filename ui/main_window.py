@@ -206,8 +206,8 @@ class MainWindow(Gtk.Window):
             self.results_box.pack_start(Gtk.Label(label=_("Nenhum pacote encontrado.")), False, False, 0)
         else:
             for pkg in pkgs:
-                # Exibe apenas o nome e versão do pacote como exemplo
-                label = Gtk.Label(label=f"{pkg['name']} ({pkg['version']})")
+                # Exibe apenas o nome do pacote
+                label = Gtk.Label(label=f"{pkg['name']}")
                 self.results_box.pack_start(label, False, False, 0)
         self.results_box.show_all()
 
