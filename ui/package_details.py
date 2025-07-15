@@ -1,6 +1,11 @@
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
+import gettext
+gettext.bindtextdomain('software-store', '/opt/software-store/i18n')
+gettext.textdomain('software-store')
+_ = gettext.gettext
+
 from apt_utils import install_package, remove_package, is_installed, get_special_exec
 
 class PackageDetailsDialog(Gtk.Dialog):

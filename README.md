@@ -47,6 +47,17 @@ software-store://pkg?search=inkscape
 
 Ao acessar esse link, o Software Store abrirá uma janela de detalhes do pacote solicitado.
 
+## Testando Deeplink pelo Terminal
+
+Você pode testar o deeplink diretamente pelo terminal, passando a URI como argumento para o comando:
+
+```bash
+software-store "software-store://pkg?search=inkscape"
+```
+
+Se houver algum erro, a mensagem será exibida no terminal.  
+Isso é útil para depuração e para garantir que o Software Store está interpretando corretamente o argumento.
+
 ## Como usar
 
 - **Buscar aplicativos:** Digite o nome do aplicativo no campo de busca e pressione Enter ou clique em "Pesquisar".
@@ -60,6 +71,25 @@ Ao acessar esse link, o Software Store abrirá uma janela de detalhes do pacote 
 - Snap e Flatpak não são suportados.
 - Para que o atalho apareça no menu, o instalador copia o arquivo `.desktop` para `/usr/share/applications`.
 - Pacotes que exigem parâmetros especiais (ex: `--no-sandbox`) são tratados automaticamente.
+
+## Observações sobre Deeplink
+
+- O deeplink funciona diretamente pelo terminal, passando a URI como argumento para o comando `software-store`.
+- Para que o deeplink funcione ao clicar em links no navegador, é necessário que o sistema esteja configurado para associar o esquema `software-store://` ao aplicativo Software Store.
+- Caso o navegador apenas tente abrir o comando `software-store://pkg?search=inkscape`, sem passar como argumento para o aplicativo, a página inicial será aberta.
+- Para integração total, edite o arquivo `.desktop` do Software Store e adicione a linha abaixo para registrar o esquema de URI:
+
+  ```
+  MimeType=x-scheme-handler/software-store;
+  ```
+
+- Após isso, atualize o banco de dados de aplicativos do sistema com:
+
+  ```bash
+  update-desktop-database
+  ```
+
+- Assim, ao clicar em links `software-store://...` no navegador, o Software Store será chamado com o argumento correto e abrirá a página de detalhes do pacote.
 
 ## Suporte
 

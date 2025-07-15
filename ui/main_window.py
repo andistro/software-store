@@ -9,6 +9,7 @@ _ = gettext.gettext
 
 from apt_utils import search_packages, update_packages, is_installed, get_special_exec
 from ui.package_details import PackageDetailsDialog
+import sys
 
 class MainWindow(Gtk.Window):
     def __init__(self, lang):
@@ -18,7 +19,20 @@ class MainWindow(Gtk.Window):
 
         self.webview = WebKit2.WebView()
         self.add(self.webview)
-        self.load_main_page()
+
+        # Verifica argumentos para deeplink
+        if len(sys.argv) > 1 and sys.argv[1].startswith("software-store://"):
+            import urllib.parse
+            uri = sys.argv[1]
+            parsed = urllib.parse.urlparse(uri)
+            query = urllib.parse.parse_qs(parsed.query)
+            pkg_name = query.get("search", [""])[0]
+            if pkg_name:
+                self.load_details_page(pkg_name)
+            else:
+                self.load_main_page()
+        else:
+            self.load_main_page()
 
         # Exemplo de como receber eventos do JS
         self.webview.connect("decide-policy", self.on_decide_policy)
@@ -206,9 +220,36 @@ class MainWindow(Gtk.Window):
             self.results_box.pack_start(Gtk.Label(label=_("Nenhum pacote encontrado.")), False, False, 0)
         else:
             for pkg in pkgs:
-                # Exibe apenas o nome do pacote
+                hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+                # Ícone do pacote via tema do sistema
+                icon_theme = Gtk.IconTheme.get_default()
+                if icon_theme.has_icon(pkg['name']):
+                    image = Gtk.Image.new_from_icon_name(pkg['name'], Gtk.IconSize.DIALOG)
+                else:
+                    image = Gtk.Image.new_from_icon_name("application-x-executable", Gtk.IconSize.DIALOG)
+                hbox.pack_start(image, False, False, 0)
+                # Nome do pacote
                 label = Gtk.Label(label=f"{pkg['name']}")
-                self.results_box.pack_start(label, False, False, 0)
+                label.set_xalign(0)
+                hbox.pack_start(label, True, True, 0)
+                # Botão de detalhes
+                btn_details = Gtk.Button(label=_("Detalhes"))
+                btn_details.connect("clicked", lambda btn, p=pkg: self.open_details(p))
+                hbox.pack_start(btn_details, False, False, 0)
+                # Botões de ação
+                installed = is_installed(pkg['name'])
+                if installed:
+                    btn_open = Gtk.Button(label=_("Abrir"))
+                    btn_open.connect("clicked", lambda btn, n=pkg['name']: self.open_package(n))
+                    hbox.pack_start(btn_open, False, False, 0)
+                    btn_remove = Gtk.Button(label=_("Remover"))
+                    btn_remove.connect("clicked", lambda btn, n=pkg['name']: self.remove_package(n))
+                    hbox.pack_start(btn_remove, False, False, 0)
+                else:
+                    btn_install = Gtk.Button(label=_("Instalar"))
+                    btn_install.connect("clicked", lambda btn, n=pkg['name']: self.install_package(n))
+                    hbox.pack_start(btn_install, False, False, 0)
+                self.results_box.pack_start(hbox, False, False, 0)
         self.results_box.show_all()
 
     def open_details(self, pkg):
