@@ -12,7 +12,7 @@ set -e
 
 echo "Instalando dependências..."
 sudo apt-get update
-sudo apt-get install -y python3 python3-gi python3-apt gir1.2-gtk-3.0 gettext
+sudo apt-get install -y python3 python3-gi python3-apt gir1.2-gtk-3.0 gettext python3-gi-cairo  gir1.2-webkit2-4.0 libwebkit2gtk-4.0-37
 
 echo "Instalando Software Store..."
 INSTALL_DIR="/opt/software-store"
